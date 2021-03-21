@@ -52,3 +52,29 @@ Allows the user to post songs anonymously to their location and nearby anonymous
 * Local song postings page -> Song details 
 * Post song page -> entering the song name or url plus any other necessary info
 * Total points -> see history of how other anonymous people like your postings 
+
+## Schema 
+### Models
+#### Post
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user post (default field) |
+   | image         | File     | thumbnail of youtube post |
+   | caption       | String   | image caption by author or description from youtube video |
+   | likesCount    | Number   | number of likes for the post |
+   | createdAt     | DateTime | date when post is created (default field) but user should stay anonymous |
+
+### Networking
+#### List of network requests by screen
+   - Home Feed Screen
+      - (Read/GET) Query all posts made in app(GET all posts/songs)
+      - (Create/POST) Create a new like on a post
+      - (Delete) Delete existing like
+      - (Create/POST) Create a new comment on a post
+      - (Delete) Delete existing comment
+   - Create Song Post screen
+      - (Create/POST) Create a new song object
+   - Profile Screen
+      - (Read/GET) Query logged in user object
+      - (Read/GET) All posts by logged in user
