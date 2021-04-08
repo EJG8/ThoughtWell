@@ -19,8 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
 
-    // test add
-    // another test
+    //removed the tests
     final String TAG = "LOGIN_ACTIVITY";
     // for signing in the user anonymously
     private FirebaseAuth mAuth;
