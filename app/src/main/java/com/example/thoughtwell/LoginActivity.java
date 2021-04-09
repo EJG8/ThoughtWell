@@ -20,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    //added a test comment
+
     final String TAG = "LOGIN_ACTIVITY";
     // for signing in the user anonymously
     private FirebaseAuth mAuth;
