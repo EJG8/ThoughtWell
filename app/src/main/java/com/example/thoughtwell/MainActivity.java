@@ -46,6 +46,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "entered the 'onStart' function");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "entered the 'onResume' function");
+    }
+
     public void gotoLogin(View view) {
         Log.d(TAG, "entered gotoLogin");
         Intent intent = new Intent(this, LoginActivity.class);

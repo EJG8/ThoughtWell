@@ -28,16 +28,29 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         Intent intent = getIntent();
-        Log.d(TAG, "entered the 'onCreate' function");
+        Log.i(TAG, "entered the 'onCreate' function");
         // initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        Log.i(TAG, "entered the 'onStart' function");
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Log.i(TAG, "entered the 'onResume' function");
+//    }
 
 
 //    private void signInAnonymously() {
