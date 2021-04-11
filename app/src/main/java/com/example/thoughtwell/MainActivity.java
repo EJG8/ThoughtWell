@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "entered onCreate");
+        Log.i(TAG, "entered onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoLogin(View view) {
-        Log.d(TAG, "entered gotoLogin");
+        Log.i(TAG, "entered gotoLogin");
         Intent intent = new Intent(this, LoginActivity.class);
-        Log.d(TAG, "entered gotoLogin2");
+        Log.i(TAG, "entered gotoLogin2");
         startActivity(intent);
 
     }
