@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     @Override
-     protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Log.i(TAG, "entered the 'onCreate' function");
@@ -44,9 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         // check if user is already signed in
         // if so, go to MainActivity and finish
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        // if this doesn't seem to work right, then try moving it into a onStart method
+        if (currentUser != null) {
             Toast.makeText(this, "User is already signed in", Toast.LENGTH_SHORT).show();
-            goMainActivity();
+            //goMainActivity();
         }
 
         // initializing our inputs from user
@@ -54,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        // listen for button clicks
+        btnSubmit.setOnClickListener(new OnClickListener() {
             // this is an anonymous class of View.OnClickListener
             // it allows us to override method onClick with our own implementation.
             // good for one time use since it takes less work than creating another class
@@ -68,16 +71,30 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i(TAG, "email: " + email);
                 Log.i(TAG, "password: " + password);
 
-
+                // create an account with the provided credentials
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        // you have to specify 'LoginActivity.this' or else it throws an error;
+                        // if you only use 'this' it will use 'btnSubmit.setOnClickListener'
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success
+                                    Log.i(TAG, "createUserWithEmail:success");
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
-
         });
-
     }
 
 
-
-    // use the intent system in android to navigate to the next activity
+        //use the intent system in android to navigate to the next activity
     private void goMainActivity() {
         // 'this' <- the context, which is referring to 'LoginActivity' which is an instance of a context
         // MainActivity.class <- the class where you want to navigate to
@@ -87,18 +104,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+        // TESTING APP LIFELINE
+        @Override
+        protected void onStart () {
+            super.onStart();
+            Log.i(TAG, "entered the 'onStart' function");
+        }
 
-    // TESTING APP LIFELINE
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG, "entered the 'onStart' function");
-    }
+        @Override
+        protected void onResume () {
+            super.onResume();
+            Log.i(TAG, "entered the 'onResume' function");
+        }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "entered the 'onResume' function");
-    }
 
 }
