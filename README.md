@@ -116,4 +116,7 @@ An application that makes it easy to share thoughts with those in your neighborh
       - (Read/GET) All thoughts this user has saved (thoughtWallet saves)
       - (Delete) Delete existing deposit (thoughtWallet save)
 
+## Update 
+<img src="ThoughtWell_showcase1.gif" width=600><br>
+
 
