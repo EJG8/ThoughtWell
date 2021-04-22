@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">ThoughtWell</string>
+
+    <!-- Login/Signup activity -->
     <string name="signup">Signup</string>
     <string name="login">Login</string>
+
+    <!-- bottom nav -->
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="deposit">Deposit</string>
+
+    <!-- Home fragment -->
+    <string name="home_greeting">A thought for your mind</string>
+    <string name="logout">Log out</string>
 </resources>

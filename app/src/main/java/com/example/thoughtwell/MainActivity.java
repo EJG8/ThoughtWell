@@ -3,14 +3,21 @@ package com.example.thoughtwell;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import com.example.thoughtwell.fragments.DepositFragment;
+import com.example.thoughtwell.fragments.HomeFragment;
+import com.example.thoughtwell.fragments.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -21,42 +28,46 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
     public static final String EXTRA_MESSAGE = "com.example.thoughtwell.MESSAGE";
 
-    //private Button btnNext;
-    //private Button btnDeposit;
-    private Button btnLogout;
-    private TextView tvSampleThought;
-
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReference().child("test");
-
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "entered onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get references to buttons
-        //btnNext = findViewById(R.id.btnNext);
-        //btnDeposit = findViewById(R.id.btnDeposit);
-        btnLogout = findViewById(R.id.btnLogout);
-        tvSampleThought = findViewById(R.id.tvSampleThought);
-
-        String words = "dont stand there come in";
-        tvSampleThought.setText(words);
-        myRef.setValue(words);
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
-                mAuth.signOut();
-                goLoginActivity();
-            }
-        });
+        // to avoid cluttering the onCreate method, we are placing most of the code for this
+        // function at the bottom
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    // save references to the fragment you want to open
+                    switch (item.getItemId()) {
+                        case R.id.nav_home:
+                            selectedFragment = new HomeFragment();
+                            break;
+                        case R.id.nav_profile:
+                            selectedFragment = new ProfileFragment();
+                            break;
+                        case R.id.nav_deposit:
+                            selectedFragment = new DepositFragment();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+
+                    return true;
+                }
+            };
 
     private void goLoginActivity() {
         Log.i(TAG, "entered goLoginActivity");
@@ -64,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 
     @Override
     protected void onStart() {
